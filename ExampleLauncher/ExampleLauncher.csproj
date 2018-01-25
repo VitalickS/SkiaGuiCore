@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject>ExampleLauncher.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\01-Hello World\01-Hello World.csproj" />
+    <ProjectReference Include="..\SkiaGuiCore\SkiaGuiCore.csproj" />
+  </ItemGroup>
+
+
+</Project>
