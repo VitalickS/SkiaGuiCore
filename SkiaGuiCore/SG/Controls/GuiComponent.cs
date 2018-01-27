@@ -7,9 +7,9 @@ namespace SkiaGuiCore.SG.Controls
 {
     public class GuiComponent : IGuiComponent
     {
-        public virtual SKRectI Margin { get; set; }
+        public virtual Thickness Margin { get; set; }
         public SKPointI Position { get; private set; }
-        public SKSizeI Size { get; set; }
+        public SKSizeI VisualSize { get; set; }
         public float MaxWidth { get; set; } = float.PositiveInfinity;
         public float MaxHeight { get; set; } = float.PositiveInfinity;
         public HorizAlign HorizAlign { get; set; }
@@ -18,57 +18,58 @@ namespace SkiaGuiCore.SG.Controls
         public SKPaint Background { get; set; }
         public object Content { get; set; }
         public object DataContext { get; set; }
-        public IGuiComponent Parent { get; }
+        public IGuiComponent Parent { get; set; }
         public SKMatrix? Transform { get; }
 
         public virtual SKRectI Measure()
         {
             var bounds = new SKRectI();
-            if (Size.Width > MaxWidth) Size = new SKSizeI((int)MaxWidth, Size.Height);
-            if (Size.Height > MaxHeight) Size = new SKSizeI(Size.Width, (int)MaxHeight);
-            Size = new SKSizeI((int)Math.Min(Size.Width, MaxWidth), (int)Math.Min(Size.Height, MaxHeight));
+            if (VisualSize.Width > MaxWidth) VisualSize = new SKSizeI((int)MaxWidth, VisualSize.Height);
+            if (VisualSize.Height > MaxHeight) VisualSize = new SKSizeI(VisualSize.Width, (int)MaxHeight);
+            VisualSize = new SKSizeI((int)Math.Min(VisualSize.Width, MaxWidth), (int)Math.Min(VisualSize.Height, MaxHeight));
 
             switch (HorizAlign)
             {
                 case HorizAlign.Left:
-                    bounds.Left = Margin.Left;
-                    bounds.Right = bounds.Left = Size.Width;
+                    bounds.Left = (int)Margin.Left;
+                    bounds.Right = bounds.Left = VisualSize.Width;
                     break;
                 case HorizAlign.Center:
-                    bounds.Left = (Parent.Size.Width - Size.Width) / 2 + Margin.Left;
-                    bounds.Right = bounds.Left = Size.Width;
+                    bounds.Left = (Parent.VisualSize.Width - VisualSize.Width) / 2 + (int)Margin.Left;
+                    bounds.Right = bounds.Left = VisualSize.Width;
                     break;
                 case HorizAlign.Right:
-                    bounds.Left = Parent.Size.Width - Size.Width - Margin.Right;
-                    bounds.Right = bounds.Left + Size.Width;
+                    bounds.Left = Parent.VisualSize.Width - VisualSize.Width - (int)Margin.Right;
+                    bounds.Right = bounds.Left + VisualSize.Width;
                     break;
                 case HorizAlign.Stretch:
-                    bounds.Left = Margin.Left;
-                    bounds.Right = Margin.Right;
+                    bounds.Left = (int)Margin.Left;
+                    bounds.Right = Parent.VisualSize.Width - (int)Margin.Right;
                     break;
             }
 
             switch (VertAlign)
             {
                 case VertAlign.Top:
-                    bounds.Top = Margin.Top;
-                    bounds.Bottom = bounds.Top + Size.Height;
+                    bounds.Top = (int)Margin.Top;
+                    bounds.Bottom = bounds.Top + VisualSize.Height;
                     break;
                 case VertAlign.Center:
-                    bounds.Top = (Parent.Size.Height - Size.Height) / 2 + Margin.Top;
-                    bounds.Bottom = bounds.Top + Size.Height;
+                    bounds.Top = (Parent.VisualSize.Height - VisualSize.Height) / 2 + (int)Margin.Top;
+                    bounds.Bottom = bounds.Top + VisualSize.Height;
                     break;
                 case VertAlign.Bottom:
-                    bounds.Top = Parent.Size.Height - Size.Height - Margin.Bottom;
-                    bounds.Bottom = bounds.Top + Size.Height;
+                    bounds.Top = Parent.VisualSize.Height - VisualSize.Height - (int)Margin.Bottom;
+                    bounds.Bottom = bounds.Top + VisualSize.Height;
                     break;
                 case VertAlign.Stretch:
-                    bounds.Top = Margin.Top;
-                    bounds.Bottom = Margin.Bottom;
+                    bounds.Top = (int)Margin.Top;
+                    bounds.Bottom = Parent.VisualSize.Height - (int)Margin.Bottom;
                     break;
             }
 
             Position = bounds.Location;
+            VisualSize = bounds.Size;
             return bounds;
         }
 

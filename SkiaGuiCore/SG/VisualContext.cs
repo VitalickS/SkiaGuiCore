@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using SkiaGuiCore.SG.Controls;
 using SkiaSharp;
 
 namespace SkiaGuiCore.SG
@@ -15,6 +17,7 @@ namespace SkiaGuiCore.SG
         public IReadOnlyList<SKRectI> DirtyRects => _dirtyRects;
         public IReadOnlyList<SKRectI> ElementBounds => _elementBounds;
         public Window Target { get; }
+        public IGuiComponent RenderComponent { get; private set; }
 
         public VisualContext(Window target)
         {
@@ -35,6 +38,12 @@ namespace SkiaGuiCore.SG
             });
         }
 
+        public void AddVisual(IGuiComponent component)
+        {
+            RenderComponent = component;
+            component.Parent = Target;
+        }
+
         public void Reset()
         {
             _dirtyRects.Clear();
@@ -51,6 +60,27 @@ namespace SkiaGuiCore.SG
         {
             Canvas?.Dispose();
             _backSurface?.Dispose();
+        }
+
+        public SKImage Snapshot()
+        {
+            return _backSurface.Snapshot();
+        }
+
+        public void SaveToImage(string pngFile)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(pngFile));
+            using (var snap = Snapshot())
+            using (var data = snap.Encode())
+            using (var stream = File.Create(pngFile))
+            {
+                data.SaveTo(stream);
+            }
+        }
+
+        public void Render()
+        {
+            RenderComponent.Render(Canvas);
         }
     }
 }

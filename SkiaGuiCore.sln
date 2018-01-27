@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaGuiCore", "SkiaGuiCore\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{9DEB6E5E-CDD4-4F1B-92DE-ED8BD0AEAF53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleLauncher", "ExampleLauncher\ExampleLauncher.csproj", "{6E61EA06-F336-4577-861C-BBB828A21583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleLauncher", "ExampleLauncher\ExampleLauncher.csproj", "{6E61EA06-F336-4577-861C-BBB828A21583}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01-Hello World", "01-Hello World\01-Hello World.csproj", "{C13C9098-DFC7-47C0-A965-D61CE47353C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01-Hello World", "01-Hello World\01-Hello World.csproj", "{C13C9098-DFC7-47C0-A965-D61CE47353C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkiaGui.Tests", "SkiaGui.Tests\SkiaGui.Tests.csproj", "{5A81D59E-E65F-4375-A363-379868D9D6BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{C13C9098-DFC7-47C0-A965-D61CE47353C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C13C9098-DFC7-47C0-A965-D61CE47353C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C13C9098-DFC7-47C0-A965-D61CE47353C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A81D59E-E65F-4375-A363-379868D9D6BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A81D59E-E65F-4375-A363-379868D9D6BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A81D59E-E65F-4375-A363-379868D9D6BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A81D59E-E65F-4375-A363-379868D9D6BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

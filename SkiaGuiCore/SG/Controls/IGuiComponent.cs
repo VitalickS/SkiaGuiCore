@@ -5,9 +5,9 @@ namespace SkiaGuiCore.SG.Controls
 {
     public interface IGuiComponent
     {
-        SKRectI Margin { get; set; }
+        Thickness Margin { get; set; }
         SKPointI Position { get; }
-        SKSizeI Size { get; set; }
+        SKSizeI VisualSize { get; set; }
         float MaxWidth { get; set; }
         float MaxHeight { get; set; }
 
@@ -19,7 +19,7 @@ namespace SkiaGuiCore.SG.Controls
         object Content { get; set; }
         object DataContext { get; set; }
 
-        IGuiComponent Parent { get; }
+        IGuiComponent Parent { get; set; }
         SKMatrix? Transform { get; }
         SKRectI Measure();
         void Render(SKCanvas canvas);

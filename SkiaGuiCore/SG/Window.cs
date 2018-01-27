@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using System.Runtime.CompilerServices;
+using OpenTK;
 using OpenTK.Graphics;
 using SkiaGuiCore.SG.Controls;
 using SkiaSharp;
@@ -31,12 +32,18 @@ namespace SkiaGuiCore.SG
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             _context.Reset();
-            
+
         }
 
-        public SKRectI Margin { get; set; }
+        public Thickness Margin { get; set; }
         public SKPointI Position => Margin.Location;
-        public SKSizeI Size { get; set; }
+
+        public SKSizeI VisualSize
+        {
+            get { return new SKSizeI(ClientSize.Width, ClientSize.Height); }
+            set { ClientSize = new Size(value.Width, value.Height); }
+        }
+
         public float MaxWidth { get; set; }
         public float MaxHeight { get; set; }
         public HorizAlign HorizAlign { get; set; }
@@ -45,17 +52,17 @@ namespace SkiaGuiCore.SG
         public SKPaint Background { get; set; }
         public object Content { get; set; }
         public object DataContext { get; set; }
-        public IGuiComponent Parent { get; }
+        public IGuiComponent Parent { get; set; }
         public SKMatrix? Transform { get; }
 
         public SKRectI Measure()
         {
-            return Margin;
+            return new SKRectI(X, Y, X + Width, Y + Height);
         }
 
         public void Render(SKCanvas canvas)
         {
-            
+
         }
     }
 }
