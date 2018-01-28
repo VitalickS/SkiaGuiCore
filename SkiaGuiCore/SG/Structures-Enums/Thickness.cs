@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace SkiaGuiCore.SG.Controls
+namespace SkiaGuiCore.SG
 {
     public struct Thickness
     {

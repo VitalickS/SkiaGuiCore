@@ -1,47 +1,60 @@
-﻿using System.Runtime.CompilerServices;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics;
 using SkiaGuiCore.SG.Controls;
 using SkiaSharp;
 
 namespace SkiaGuiCore.SG
 {
-    public class Window : GameWindow, IGuiComponent
+    public class Window : IGuiComponent
     {
-        private VisualContext _context;
+        public readonly GameWindow NativeWindow;
+        private readonly VisualContext _context;
+        public float Height { get; set; }
+        public float Width { get; set; }
+
+
         public Window() : this(300, 300)
         {
             Initialize();
         }
 
-        public Window(int width, int height) : base(width, height)
+        public Window(int width, int height)
         {
+            Width = width;
+            Height = height;
+            NativeWindow = new GameWindow(width, height);
+            _context = new VisualContext(this);
             Initialize();
         }
 
-        public Window(int width, int height, GraphicsMode mode, string title = "", GameWindowFlags options = GameWindowFlags.Default) : base(width, height, mode, title, options)
+
+        public Window(int width, int height, GraphicsMode mode, string title = "", GameWindowFlags options = GameWindowFlags.Default)
         {
+            Width = width;
+            Height = height;
+            NativeWindow = new GameWindow(width, height, mode, title, options);
+            _context = new VisualContext(this);
             Initialize();
         }
 
         private void Initialize()
         {
-            _context = new VisualContext(this);
+            NativeWindow.RenderFrame += NativeWindowRenderFrame;
         }
 
-        protected override void OnRenderFrame(FrameEventArgs e)
+        private void NativeWindowRenderFrame(object sender, FrameEventArgs e)
         {
             _context.Reset();
-
+            _context.Render();
         }
 
         public Thickness Margin { get; set; }
-        public SKPointI Position => Margin.Location;
+        public SKPointI Position { get; set; }
 
-        public SKSizeI VisualSize
+        public SKSizeI Size
         {
-            get { return new SKSizeI(ClientSize.Width, ClientSize.Height); }
-            set { ClientSize = new Size(value.Width, value.Height); }
+            get => new SKSizeI(NativeWindow.ClientSize.Width, NativeWindow.ClientSize.Height);
+            set => NativeWindow.ClientSize = new Size(value.Width, value.Height);
         }
 
         public float MaxWidth { get; set; }
@@ -53,16 +66,14 @@ namespace SkiaGuiCore.SG
         public object Content { get; set; }
         public object DataContext { get; set; }
         public IGuiComponent Parent { get; set; }
-        public SKMatrix? Transform { get; }
 
-        public SKRectI Measure()
+        public SKRect Measure(SKSize availableSize)
         {
-            return new SKRectI(X, Y, X + Width, Y + Height);
+            return new SKRect(NativeWindow.X, NativeWindow.Y, NativeWindow.X + Width, NativeWindow.Y + Height);
         }
 
         public void Render(SKCanvas canvas)
         {
-
         }
     }
 }

@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using SkiaGuiCore.SG;
 using SkiaGuiCore.SG.Controls;
@@ -30,23 +27,34 @@ namespace SkiaGui.Tests
         [Fact]
         public void BorderAndLayout()
         {
-            const string file = "AssertionImages/border.png";
+            const string file = "..\\..\\..\\AssertionImages\\border.png";
             var bord = new Border
             {
-                Foreground = new SKPaint { Color = SKColors.Black, IsAntialias = true },
+                Foreground = new SKPaint { Color = SKColors.White, IsAntialias = true },
                 BorderBrush = new SKPaint { Color = SKColors.Gray.WithAlpha(255), IsStroke = true, IsAntialias = true },
-                Background = new SKPaint { Color = SKColors.White, IsStroke = false, IsAntialias = true },
-                CornerRadius = new CornerRadius(35, 25, 25, 35),
-                Thickness = new Thickness(5, 10, 5, 2),
-                VisualSize = new SKSizeI(100, 40),
-                Margin = new Thickness(5, 10, 15, 3),
+                Background = new SKPaint
+                {
+                    Color = SKColors.White,
+                    IsStroke = false,
+                    IsAntialias = true,
+                    Shader = SKShader.CreateLinearGradient(new SKPoint(0, 250), new SKPoint(0, 280),
+                        new[] { new SKColor(70, 70, 70), SKColors.Black },
+                        new[] { 0f, 1f }, SKShaderTileMode.Clamp)
+                },
+                CornerRadius = new CornerRadius(10),
+                Thickness = new Thickness(1, 5),
+                HorizAlign = HorizAlign.Left,
+                VertAlign = VertAlign.Top,
+                Width = 100,
+                Height = 50,
+                Margin = new Thickness(20),
                 Content = "Hello World"
             };
             var visualContext = new VisualContext(_app.MainWindow);
             visualContext.AddVisual(bord);
             visualContext.Render();
             visualContext.SaveToImage(file);
-            Process.Start(@"C:\Program Files\paint.net\PaintDotNet.exe", Path.Combine(Environment.CurrentDirectory, file));
+            Process.Start("mspaint.exe", Path.Combine(Environment.CurrentDirectory, file));
         }
 
         public void Dispose()

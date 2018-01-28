@@ -12,12 +12,12 @@
 
         public void Run()
         {
-            MainWindow.Run();
+            MainWindow.NativeWindow.Run();
         }
 
         public void Exit()
         {
-            MainWindow?.Exit();
+            MainWindow.NativeWindow.Exit();
         }
     }
 }

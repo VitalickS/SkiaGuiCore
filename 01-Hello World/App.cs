@@ -7,7 +7,7 @@ namespace Examples.Ex01
         public App()
         {
             MainWindow = new Window();
-            MainWindow.Run();
+            MainWindow.NativeWindow.Run();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using OpenTK;
 using SkiaGuiCore.SG.Controls;
 using SkiaSharp;
 
@@ -17,6 +17,7 @@ namespace SkiaGuiCore.SG
         public IReadOnlyList<SKRectI> DirtyRects => _dirtyRects;
         public IReadOnlyList<SKRectI> ElementBounds => _elementBounds;
         public Window Target { get; }
+        public INativeWindow NativeWindow => Target.NativeWindow;
         public IGuiComponent RenderComponent { get; private set; }
 
         public VisualContext(Window target)
@@ -30,8 +31,8 @@ namespace SkiaGuiCore.SG
             _backSurface?.Dispose();
             _backSurface = SKSurface.Create(GrContext, new GRBackendRenderTargetDesc()
             {
-                Width = Target.ClientSize.Width,
-                Height = Target.ClientSize.Height,
+                Width = Target.Size.Width,
+                Height = Target.Size.Height,
                 SampleCount = 0,
                 StencilBits = 0,
                 Config = GRPixelConfig.Rgba8888
@@ -41,7 +42,6 @@ namespace SkiaGuiCore.SG
         public void AddVisual(IGuiComponent component)
         {
             RenderComponent = component;
-            component.Parent = Target;
         }
 
         public void Reset()
